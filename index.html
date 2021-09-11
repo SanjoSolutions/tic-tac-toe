@@ -4,8 +4,79 @@
   <meta charset="utf-8">
   <title>Tic Tac Toe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --field-length: 4rem;
+      --border-width: 2px;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      width: calc(3 * var(--field-length) + 2 * var(--border-width));
+      height: calc(3 * var(--field-length) + 2 * var(--border-width));
+    }
+
+    .field {
+      border: 0 solid black;
+      width: var(--field-length);
+      height: var(--field-length);
+      font-family: sans-serif;
+      font-size: 3.5rem;
+      line-height: var(--field-length);
+      text-align: center;
+      user-select: none;
+    }
+
+    .field:nth-child(1) {
+      border-bottom-width: var(--border-width);
+      border-right-width: var(--border-width);
+    }
+
+    .field:nth-child(2) {
+      border-bottom-width: var(--border-width);
+      border-right-width: var(--border-width);
+    }
+
+    .field:nth-child(3) {
+      border-bottom-width: var(--border-width);
+    }
+
+    .field:nth-child(4) {
+      border-bottom-width: var(--border-width);
+      border-right-width: var(--border-width);
+    }
+
+    .field:nth-child(5) {
+      border-bottom-width: var(--border-width);
+      border-right-width: var(--border-width);
+    }
+
+    .field:nth-child(6) {
+      border-bottom-width: var(--border-width);
+    }
+
+    .field:nth-child(7) {
+      border-right-width: var(--border-width);
+    }
+
+    .field:nth-child(8) {
+      border-right-width: var(--border-width);
+    }
+  </style>
 </head>
 <body>
+  <div class="grid">
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+    <div class="field"></div>
+  </div>
   <script type="module">
     import { main } from './index.js'
 
