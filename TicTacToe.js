@@ -30,6 +30,10 @@ export class TicTacToe {
     }
   }
 
+  determineIndex(row, column) {
+    return row * TicTacToe.GRID_WIDTH + column
+  }
+
   determineWinner() {
     if (this._hasWon(Mark.X)) {
       return Mark.X
@@ -42,76 +46,8 @@ export class TicTacToe {
     return this._getWinnerFields(Mark.X) || this._getWinnerFields(Mark.O) || null
   }
 
-  _getWinnerFields(mark) {
-    const fieldCombinations = [
-      [
-        {row: 0, column: 0},
-        {row: 0, column: 1},
-        {row: 0, column: 2},
-      ],
-      [
-        {row: 1, column: 0},
-        {row: 1, column: 1},
-        {row: 1, column: 2},
-      ],
-      [
-        {row: 2, column: 0},
-        {row: 2, column: 1},
-        {row: 2, column: 2},
-      ],
-      [
-        {row: 0, column: 0},
-        {row: 1, column: 0},
-        {row: 2, column: 0},
-      ],
-      [
-        {row: 0, column: 1},
-        {row: 1, column: 1},
-        {row: 2, column: 1},
-      ],
-      [
-        {row: 0, column: 2},
-        {row: 1, column: 2},
-        {row: 2, column: 2},
-      ],
-      [
-        {row: 0, column: 0},
-        {row: 1, column: 1},
-        {row: 2, column: 2},
-      ],
-      [
-        {row: 0, column: 2},
-        {row: 1, column: 1},
-        {row: 2, column: 0},
-      ]
-    ]
-    for (const fieldCombination of fieldCombinations) {
-      if (this._hasWonWith(fieldCombination, mark)) {
-        return fieldCombination
-      }
-    }
-  }
-
-  _hasWonWith(fieldCombination, mark) {
-    return fieldCombination.every(field => this._hasMark(field, mark))
-  }
-
-  _hasMark(field, mark) {
-    const {row, column} = field
-    return this.get(row, column) === mark
-  }
-
   _isFirstMark() {
     return this._lastMark === null
-  }
-  
-  _hasWon(mark) {
-    const winnerFields = this._getWinnerFields(mark)
-    return winnerFields && winnerFields.length === 3
-  }
-
-  determineIndex(row, column) {
-    return row * TicTacToe.GRID_WIDTH + column
   }
 
   _determineMarkThatCanBePlayedAfter(mark) {
@@ -123,4 +59,67 @@ export class TicTacToe {
     }
     return markThatCanBePlayedAfter
   }
+
+  _hasWon(mark) {
+    const winnerFields = this._getWinnerFields(mark)
+    return winnerFields && winnerFields.length === 3
+  }
+
+  _getWinnerFields(mark) {
+    return fieldCombinations.find(
+      fieldCombination => this._hasWonWith(fieldCombination, mark)
+    )
+  }
+
+  _hasWonWith(fieldCombination, mark) {
+    return fieldCombination.every(field => this._hasMark(field, mark))
+  }
+
+  _hasMark(field, mark) {
+    const {row, column} = field
+    return this.get(row, column) === mark
+  }
 }
+
+const fieldCombinations = [
+  [
+    {row: 0, column: 0},
+    {row: 0, column: 1},
+    {row: 0, column: 2},
+  ],
+  [
+    {row: 1, column: 0},
+    {row: 1, column: 1},
+    {row: 1, column: 2},
+  ],
+  [
+    {row: 2, column: 0},
+    {row: 2, column: 1},
+    {row: 2, column: 2},
+  ],
+  [
+    {row: 0, column: 0},
+    {row: 1, column: 0},
+    {row: 2, column: 0},
+  ],
+  [
+    {row: 0, column: 1},
+    {row: 1, column: 1},
+    {row: 2, column: 1},
+  ],
+  [
+    {row: 0, column: 2},
+    {row: 1, column: 2},
+    {row: 2, column: 2},
+  ],
+  [
+    {row: 0, column: 0},
+    {row: 1, column: 1},
+    {row: 2, column: 2},
+  ],
+  [
+    {row: 0, column: 2},
+    {row: 1, column: 1},
+    {row: 2, column: 0},
+  ]
+]
