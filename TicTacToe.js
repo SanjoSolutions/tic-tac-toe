@@ -9,7 +9,7 @@ export class TicTacToe {
   }
 
   get(row, column) {
-    return this._grid[this._determineIndex(row, column)]
+    return this._grid[this.determineIndex(row, column)]
   }
 
   set(row, column, mark) {
@@ -23,7 +23,7 @@ export class TicTacToe {
         `After a ${this._lastMark} only a ${markThatCanBePlayed} can be set.`
       )
     } else if (this.get(row, column) === Mark.Empty) {
-      this._grid[this._determineIndex(row, column)] = mark
+      this._grid[this.determineIndex(row, column)] = mark
       this._lastMark = mark
     } else {
       throw new Error('Field already contains a mark.')
@@ -38,56 +38,79 @@ export class TicTacToe {
     }
   }
 
+  getWinnerFields() {
+    return this._getWinnerFields(Mark.X) || this._getWinnerFields(Mark.O) || null
+  }
+
+  _getWinnerFields(mark) {
+    const fieldCombinations = [
+      [
+        {row: 0, column: 0},
+        {row: 0, column: 1},
+        {row: 0, column: 2},
+      ],
+      [
+        {row: 1, column: 0},
+        {row: 1, column: 1},
+        {row: 1, column: 2},
+      ],
+      [
+        {row: 2, column: 0},
+        {row: 2, column: 1},
+        {row: 2, column: 2},
+      ],
+      [
+        {row: 0, column: 0},
+        {row: 1, column: 0},
+        {row: 2, column: 0},
+      ],
+      [
+        {row: 0, column: 1},
+        {row: 1, column: 1},
+        {row: 2, column: 1},
+      ],
+      [
+        {row: 0, column: 2},
+        {row: 1, column: 2},
+        {row: 2, column: 2},
+      ],
+      [
+        {row: 0, column: 0},
+        {row: 1, column: 1},
+        {row: 2, column: 2},
+      ],
+      [
+        {row: 0, column: 2},
+        {row: 1, column: 1},
+        {row: 2, column: 0},
+      ]
+    ]
+    for (const fieldCombination of fieldCombinations) {
+      if (this._hasWonWith(fieldCombination, mark)) {
+        return fieldCombination
+      }
+    }
+  }
+
+  _hasWonWith(fieldCombination, mark) {
+    return fieldCombination.every(field => this._hasMark(field, mark))
+  }
+
+  _hasMark(field, mark) {
+    const {row, column} = field
+    return this.get(row, column) === mark
+  }
+
   _isFirstMark() {
     return this._lastMark === null
   }
   
   _hasWon(mark) {
-    return (
-      (
-        this.get(0, 0) === mark &&
-        this.get(0, 1) === mark &&
-        this.get(0, 2) === mark
-      ) ||
-      (
-        this.get(1, 0) === mark &&
-        this.get(1, 1) === mark &&
-        this.get(1, 2) === mark
-      ) ||
-      (
-        this.get(2, 0) === mark &&
-        this.get(2, 1) === mark &&
-        this.get(2, 2) === mark
-      ) ||
-      (
-        this.get(0, 0) === mark &&
-        this.get(1, 0) === mark &&
-        this.get(2, 0) === mark
-      ) ||
-      (
-        this.get(0, 1) === mark &&
-        this.get(1, 1) === mark &&
-        this.get(2, 1) === mark
-      ) ||
-      (
-        this.get(0, 2) === mark &&
-        this.get(1, 2) === mark &&
-        this.get(2, 2) === mark
-      ) ||
-      (
-        this.get(0, 0) === mark &&
-        this.get(1, 1) === mark &&
-        this.get(2, 2) === mark
-      ) ||
-      (
-        this.get(0, 2) === mark &&
-        this.get(1, 1) === mark &&
-        this.get(2, 0) === mark
-      )
-    )
+    const winnerFields = this._getWinnerFields(mark)
+    return winnerFields && winnerFields.length === 3
   }
 
-  _determineIndex(row, column) {
+  determineIndex(row, column) {
     return row * TicTacToe.GRID_WIDTH + column
   }
 

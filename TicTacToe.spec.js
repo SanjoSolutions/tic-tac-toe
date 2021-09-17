@@ -232,4 +232,18 @@ describe('TicTacToe', () => {
       })
     })
   })
+
+  describe('getWinnerFields', () => {
+    const ticTacToe = new TicTacToe()
+    ticTacToe.set(0, 0, Mark.X)
+    ticTacToe.set(1, 0, Mark.O)
+    ticTacToe.set(0, 1, Mark.X)
+    ticTacToe.set(1, 1, Mark.O)
+    ticTacToe.set(0, 2, Mark.X)
+    expect(ticTacToe.getWinnerFields()).toEqual([
+      {row: 0, column: 0},
+      {row: 0, column: 1},
+      {row: 0, column: 2}
+    ])
+  })
 })
