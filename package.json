@@ -2,13 +2,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "jest TicTacToe.spec.js && npx playwright test --browser=chromium TicTacToeUI",
+    "test": "jest",
     "serve": "python -m http.server"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.4",
-    "@playwright/test": "^1.14.1",
     "babel-jest": "^27.1.1",
     "jest": "^27.1.1"
   },
